@@ -1,0 +1,40 @@
+/* @flow */
+
+import React, { Component } from 'react';
+
+import {
+  AppRegistry,
+  Text,
+  View
+} from 'react-native';
+
+import AsyncImage from './AsyncImage'
+
+export default class AsyncImageAnimated extends Component {
+  render() {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'white',
+        }}>
+
+        <AsyncImage
+          style={{
+            borderRadius: 50,
+            height: 100,
+            width: 100,
+          }}
+          source={{
+            uri: 'https://goo.gl/2W4iW6'
+          }}
+          placeholderColor='#b3e5fc'/>
+
+      </View>
+    );
+  }
+}
+
+AppRegistry.registerComponent('AsyncImageAnimated', () => AsyncImageAnimated);
