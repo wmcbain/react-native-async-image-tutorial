@@ -27,7 +27,7 @@ type State = {
   loaded: bool
 }
 
-export default class AsyncImageAnimated extends Component {
+export default class AsyncImage extends Component {
 
   props: Props
   state: State
