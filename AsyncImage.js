@@ -60,16 +60,16 @@ export default class AsyncImage extends Component {
           ]}
           onLoad={this._onLoad} />
 
-          {!this.state.loaded &&
-            <View
-              style={[
-                style,
-                {
-                  backgroundColor: placeholderColor || '#90a4ae',
-                  position: 'absolute'
-                }
-              ]} />
-          }
+        {!this.state.loaded &&
+          <View
+            style={[
+              style,
+              {
+                backgroundColor: placeholderColor || '#90a4ae',
+                position: 'absolute'
+              }
+            ]} />
+        }
 
       </View>
     )
