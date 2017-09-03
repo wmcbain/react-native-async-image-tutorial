@@ -6,7 +6,6 @@ import React, { // eslint-disable-line no-unused-vars
 
 import {
   Animated,
-  Image,
   View
 } from 'react-native'
 
@@ -101,6 +100,10 @@ export default class AsyncImage extends Component {
     } = this.state
 
     Animated.sequence([
+      Animated.timing(placeholderOpacity, {
+        delay: 1000,
+        toValue: 1.0
+      }),
       Animated.parallel([
         Animated.timing(placeholderScale, {
           toValue: 0.7,
