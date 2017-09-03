@@ -82,7 +82,7 @@ export default class AsyncImage extends Component {
               style,
               {
                 backgroundColor: placeholderColor || '#90a4ae',
-                opacity: imageOpacity,
+                opacity: placeholderOpacity,
                 position: 'absolute',
                 transform: [{ scale: placeholderScale }]
               }
@@ -127,14 +127,14 @@ export default class AsyncImage extends Component {
           }),
         ]),
         Animated.timing(imageOpacity, {
-          toValue: 1,
+          toValue: 1.0,
           delay: 200,
           duration: 300,
           useNativeDriver: true
         })
       ])
-    ]).start(this.setState(() => ({
-      loaded: true
-    })))
+    ]).start(() => {
+      this.setState(() => ({ loaded: true }))
+    })
   }
 }
