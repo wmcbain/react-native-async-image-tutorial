@@ -28,7 +28,7 @@ export default class AsyncImageAnimated extends Component {
             width: 100,
           }}
           source={{
-            uri: 'https://goo.gl/2W4iW6'
+            uri: 'https://i.imgur.com/R5TraVR.png'
           }}
           placeholderColor='#b3e5fc'/>
 
