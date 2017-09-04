@@ -87,7 +87,6 @@ export default class AsyncImage extends Component {
             style={[
               style,
               {
-                backgroundColor: placeholderColor || '#90a4ae',
                 opacity: placeholderOpacity,
                 position: 'absolute'
               }
