@@ -5,6 +5,7 @@ import React, { // eslint-disable-line no-unused-vars
 } from 'react'
 
 import {
+  Animated,
   Image,
   View
 } from 'react-native'
@@ -24,7 +25,10 @@ type Props = {
 }
 
 type State = {
-  loaded: bool
+  loaded: bool,
+  imageOpacity: Animated.Value,
+  placeholderOpacity: Animated.Value,
+  placeholderScale: Animated.Value,
 }
 
 export default class AsyncImage extends Component {
@@ -34,7 +38,12 @@ export default class AsyncImage extends Component {
 
   constructor(props: Props) {
     super(props)
-    this.state = { loaded: false }
+    this.state = {
+      loaded: false,
+      imageOpacity: new Animated.Value(0.0),
+      placeholderOpacity: new Animated.Value(1.0),
+      placeholderScale: new Animated.Value(1.0)
+    }
   }
 
   render() {
@@ -44,16 +53,23 @@ export default class AsyncImage extends Component {
       source
     } = this.props
 
+    const {
+      imageOpacity,
+      placeholderOpacity,
+      placeholderScale
+    } = this.state
+
     return (
       <View
         style={style}>
 
-        <Image
+        <Animated.Image
           source={source}
           resizeMode={'contain'}
           style={[
             style,
             {
+              opacity: imageOpacity,
               position: 'absolute',
               resizeMode: 'contain'
             }
@@ -61,12 +77,14 @@ export default class AsyncImage extends Component {
           onLoad={this._onLoad} />
 
         {!this.state.loaded &&
-          <View
+          <Animated.View
             style={[
               style,
               {
                 backgroundColor: placeholderColor || '#90a4ae',
-                position: 'absolute'
+                opacity: imageOpacity,
+                position: 'absolute',
+                transform: [{ scale: placeholderScale }]
               }
             ]} />
         }
@@ -76,6 +94,47 @@ export default class AsyncImage extends Component {
   }
 
   _onLoad = () => {
-    this.setState(() => ({ loaded: true }))
+    const {
+      placeholderScale,
+      placeholderOpacity,
+      imageOpacity
+    } = this.state
+
+    Animated.sequence([
+      Animated.parallel([
+        Animated.timing(placeholderScale, {
+          toValue: 0.7,
+          duration: 100,
+          useNativeDriver: true
+        }),
+        Animated.timing(placeholderOpacity, {
+          toValue: 0.66,
+          duration: 100,
+          useNativeDriver: true
+        }),
+      ]),
+      Animated.parallel([
+        Animated.parallel([
+          Animated.timing(placeholderOpacity, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true
+          }),
+          Animated.timing(placeholderScale, {
+            toValue: 1.2,
+            duration: 200,
+            useNativeDriver: true
+          }),
+        ]),
+        Animated.timing(imageOpacity, {
+          toValue: 1,
+          delay: 200,
+          duration: 300,
+          useNativeDriver: true
+        })
+      ])
+    ]).start(this.setState(() => ({
+      loaded: true
+    })))
   }
 }
