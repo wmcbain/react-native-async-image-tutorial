@@ -9,25 +9,27 @@ import {
   View
 } from 'react-native'
 
+type NetworkImage = { uri: string }
+type ImageSource = NetworkImage | number
+
 type Style = number | string | Object | Array<?Style>
 
 type Props = {
+  placeholderSource?: ImageSource,
   placeholderColor?: string,
   style: {
     width: number,
     height: number,
     [key: string]: Style
   },
-  source: {
-    uri: string
-  }
+  source: NetworkImage
 }
 
 type State = {
   loaded: bool,
   imageOpacity: Animated.Value,
   placeholderOpacity: Animated.Value,
-  placeholderScale: Animated.Value,
+  placeholderScale: Animated.Value
 }
 
 export default class AsyncImage extends Component {
@@ -48,12 +50,14 @@ export default class AsyncImage extends Component {
   render() {
     const {
       placeholderColor,
+      placeholderSource,
       style,
       source
     } = this.props
 
     const {
       imageOpacity,
+      loaded,
       placeholderOpacity,
       placeholderScale
     } = this.state
@@ -75,7 +79,21 @@ export default class AsyncImage extends Component {
           ]}
           onLoad={this._onLoad} />
 
-        {!this.state.loaded &&
+        {(placeholderSource && !loaded) &&
+          <Animated.Image
+            source={{placeholderSource}}
+            style={[
+              style,
+              {
+                backgroundColor: placeholderColor || '#90a4ae',
+                opacity: placeholderOpacity,
+                position: 'absolute',
+                transform: [{ scale: placeholderScale }]
+              }
+            ]} />
+        }
+
+        {(!placeholderSource && !loaded) &&
           <Animated.View
             style={[
               style,

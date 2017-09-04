@@ -27,6 +27,9 @@ export default class AsyncImageAnimated extends Component {
             height: 100,
             width: 100,
           }}
+          placeholderSource={{
+
+          }}
           source={{
             uri: 'https://i.imgur.com/R5TraVR.png'
           }}
