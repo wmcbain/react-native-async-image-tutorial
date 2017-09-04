@@ -41,7 +41,9 @@ export default class AsyncImage extends Component {
     super(props)
     this.state = {
       loaded: false,
-      imageOpacity: new Animated.Value(0.0),
+      imageOpacity: props.placeholderSource
+        ? new Animated.Value(1.0)
+        : new Animated.Value(0.0),
       placeholderOpacity: new Animated.Value(1.0),
       placeholderScale: new Animated.Value(1.0)
     }
@@ -81,14 +83,13 @@ export default class AsyncImage extends Component {
 
         {(placeholderSource && !loaded) &&
           <Animated.Image
-            source={{placeholderSource}}
+            source={placeholderSource}
             style={[
               style,
               {
                 backgroundColor: placeholderColor || '#90a4ae',
                 opacity: placeholderOpacity,
-                position: 'absolute',
-                transform: [{ scale: placeholderScale }]
+                position: 'absolute'
               }
             ]} />
         }
