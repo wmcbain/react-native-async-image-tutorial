@@ -54,6 +54,7 @@ export default class AsyncImage extends Component {
 
     const {
       imageOpacity,
+      loaded,
       placeholderOpacity,
       placeholderScale
     } = this.state
@@ -75,7 +76,7 @@ export default class AsyncImage extends Component {
           ]}
           onLoad={this._onLoad} />
 
-        {!this.state.loaded &&
+        {!loaded &&
           <Animated.View
             style={[
               style,
